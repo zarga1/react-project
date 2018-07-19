@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
 
-  mode: 'production',
+  mode: 'development',
 
   // Which file types are in our project, and where they are located
   resolve: {
