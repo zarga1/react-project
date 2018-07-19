@@ -1,5 +1,6 @@
 import React from 'react';
 import TodoListItem from './TodoListItem';
+import TodoForm from './TodoForm';
 
 class TodoList extends React.Component {
 
@@ -7,26 +8,37 @@ class TodoList extends React.Component {
         super();
 
         this.state = {
-            todos: [
-                {id: 1, name: 'Item 1', status: 0},
-                {id: 2, name: 'Item 2', status: 1},
-                {id: 3, name: 'Item 3', status: 0},
-            ]
+            todos: []
         }
     }
 
     switchStatus(todo) {
         let todos = [...this.state.todos];
         let rtodo = todos.find(lTodo => lTodo.id === todo.id);
-        rtodo.status === 0 ? rtodo.status = 1 : rtodo.status = 0;
+        rtodo.done = !rtodo.done;
         this.setState(todos);
+    }
+
+    handleAddTodo(todoName) {
+        this.setState({
+            todos: [...this.state.todos, {id: this.state.todos.length, name: todoName, done: false}]
+        })
     }
 
     render() {
         return (
-            <ul>
-                { this.state.todos.map(todo => <TodoListItem todo={todo} onSwitchStatus={this.switchStatus.bind(this, todo)}/>) }
-            </ul>
+            <div>
+                <TodoForm onAddTodo={this.handleAddTodo.bind(this)} />
+                <ul>
+                    { this.state.todos
+                        .map(todo => 
+                            <TodoListItem 
+                            todo={todo} 
+                            onSwitchStatus={this.switchStatus.bind(this, todo)}/>
+                        ) 
+                    }
+                </ul>
+            </div>
         );
     }
 
